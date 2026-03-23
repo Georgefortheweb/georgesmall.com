@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>George A. Small  , Ed.D. — Ministry Website Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Sans+3:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   DESIGN SYSTEM — CSS VARIABLES
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-bg:           #F7F6F3;
+  --color-bg-muted:     #EFEAE3;
+  --color-primary:      #1F2A44;
+  --color-accent:       #C6A45A;
+  --color-accent-light: #E8D4A0;
+  --color-text:         #333333;
+  --color-text-muted:   #6B7280;
+  --color-text-light:   #9CA3AF;
+  --color-white:        #FFFFFF;
+  --color-border:       #DDD8CF;
+  --color-shadow:       rgba(31,42,68,0.08);
+  --color-shadow-md:    rgba(31,42,68,0.14);
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'Source Sans 3', system-ui, sans-serif;
+
+  /* Spacing */
+  --space-xs:   0.3rem;
+  --space-sm:   0.6rem;
+  --space-md:   1rem;
+  --space-lg:   1.5rem;
+  --space-xl:   2.5rem;
+  --space-2xl:  3.5rem;
+  --space-3xl:  5rem;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Container */
+  --container: 1200px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.3s;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { cursor: pointer; font-family: inherit; }
+
+/* ============================================================
+   TYPOGRAPHY SCALE
+   ============================================================ */
+.t-h1 { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
+.t-h2 { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw, 2rem); font-weight: 600; line-height: 1.2; }
+.t-h3 { font-family: var(--font-serif); font-size: clamp(1.1rem, 2vw, 1.375rem); font-weight: 600; line-height: 1.3; }
+.t-body-lg { font-size: 1.125rem; line-height: 1.75; }
+.t-body { font-size: 1rem; line-height: 1.7; }
+.t-small { font-size: 0.875rem; line-height: 1.6; }
+.t-quote { font-family: var(--font-serif); font-size: 1.375rem; font-style: italic; line-height: 1.55; }
+.t-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* ============================================================
+   LAYOUT UTILITIES
+   ============================================================ */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.section { padding: var(--space-3xl) 0; }
+.section-sm { padding: var(--space-2xl) 0; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: stretch; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); }
+
+.text-center { text-align: center; }
+.text-gold { color: var(--color-accent); }
+.text-navy { color: var(--color-primary); }
+.text-muted { color: var(--color-text-muted); }
+
+/* Section header */
+.section-header { margin-bottom: var(--space-2xl); }
+.section-header .overline {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--color-accent); margin-bottom: 0.75rem;
+}
+.section-header .overline::before {
+  content: ''; display: block; width: 24px; height: 1.5px;
+  background: var(--color-accent);
+}
+.section-header h2 { color: var(--color-primary); }
+.section-header p { color: var(--color-text-muted); max-width: 540px; margin-top: 0.75rem; }
+.section-header.centered p { margin: 0.75rem auto 0; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600;
+  border-radius: var(--radius-sm); padding: 0.8rem 1.75rem;
+  border: 2px solid transparent;
+  transition: all var(--dur) var(--ease); cursor: pointer;
+  letter-spacing: 0.01em;
+}
+.btn-primary {
+  background: var(--color-primary); color: var(--color-white);
+  border-color: var(--color-primary);
+}
+.btn-primary:hover {
+  background: #2d3e63; border-color: #2d3e63;
+  transform: translateY(-1px); box-shadow: 0 6px 20px var(--color-shadow-md);
+}
+.btn-secondary {
+  background: transparent; color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn-secondary:hover {
+  background: var(--color-primary); color: var(--color-white);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  background: transparent; color: var(--color-accent);
+  border-color: transparent; padding-left: 0; padding-right: 0;
+}
+.btn-ghost::after { content: '→'; margin-left: 0.25rem; transition: transform var(--dur); }
+.btn-ghost:hover::after { transform: translateX(4px); }
+.btn-gold {
+  background: var(--color-accent); color: var(--color-primary);
+  border-color: var(--color-accent); font-weight: 700;
+}
+.btn-gold:hover {
+  background: #b8933e; border-color: #b8933e;
+  transform: translateY(-1px); box-shadow: 0 6px 20px rgba(198,164,90,0.35);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(247,246,243,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  transition: box-shadow var(--dur);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 54px;
+}
+.nav-brand {
+  display: flex; flex-direction: column;
+}
+.nav-brand .brand-name {
+  font-family: var(--font-serif); font-size: 1.0625rem; font-weight: 700;
+  color: var(--color-primary); line-height: 1.1;
+}
+.nav-brand .brand-subtitle {
+  font-size: 0.6875rem; font-weight: 400; color: var(--color-accent);
+  letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 0.25rem;
+}
+.nav-links li { position: relative; }
+.nav-links a {
+  display: block; padding: 0.5rem 0.875rem;
+  font-size: 0.9rem; font-weight: 500; color: var(--color-text);
+  border-radius: var(--radius-sm);
+  transition: all var(--dur) var(--ease);
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--color-primary); background: var(--color-bg-muted);
+}
+.nav-links .has-dropdown > a::after { content: ' ▾'; font-size: 0.7em; }
+
+/* Dropdown */
+.dropdown {
+  position: absolute; top: 100%; left: 0;
+  padding-top: 8px;
+  min-width: 200px; background: transparent;
+  opacity: 0; pointer-events: none; transform: translateY(-4px);
+  transition: all var(--dur) var(--ease);
+  z-index: 200;
+}
+.dropdown-inner {
+  background: var(--color-white);
+  border: 1px solid var(--color-border); border-radius: var(--radius-md);
+  box-shadow: 0 12px 40px var(--color-shadow-md);
+  padding: 0.5rem;
+}
+.has-dropdown:hover .dropdown {
+  opacity: 1; pointer-events: auto; transform: translateY(0);
+}
+.dropdown-inner a {
+  display: block; padding: 0.6rem 0.875rem; font-size: 0.875rem;
+  border-radius: var(--radius-sm); color: var(--color-text);
+}
+.dropdown-inner a:hover { background: var(--color-bg-muted); color: var(--color-primary); }
+.nav-cta { margin-left: var(--space-sm); }
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  background: var(--color-primary);
+  position: relative; overflow: hidden;
+  padding: 0;
+  min-height: 70vh; display: flex; align-items: center;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 80% at 75% 50%, rgba(198,164,90,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 15% 80%, rgba(255,255,255,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+/* Subtle texture overlay */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl); align-items: center;
+  min-height: 70vh; padding: var(--space-2xl) 0;
+}
+.hero-text { padding-right: var(--space-xl); }
+.hero-overline {
+  display: inline-flex; align-items: center; gap: 0.625rem;
+  color: var(--color-accent); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.5rem;
+}
+.hero-overline span { width: 32px; height: 1px; background: var(--color-accent); display: block; }
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700; color: var(--color-white);
+  line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+.hero h1 em { color: var(--color-accent); font-style: italic; }
+.hero-subtitle {
+  font-size: 1.1875rem; color: rgba(255,255,255,0.72);
+  line-height: 1.65; margin-bottom: var(--space-lg);
+  max-width: 460px;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-divider {
+  width: 40px; height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
+  margin: 1.5rem 0;
+}
+
+/* Portrait */
+.hero-portrait {
+  position: relative; display: flex; justify-content: center;
+}
+.portrait-frame {
+  width: 100%; max-width: 300px; aspect-ratio: 3/4;
+  border-radius: 180px 180px 120px 120px;
+  background: linear-gradient(160deg, rgba(198,164,90,0.3) 0%, rgba(198,164,90,0.05) 60%);
+  border: 1px solid rgba(198,164,90,0.25);
+  overflow: hidden; position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(198,164,90,0.15);
+}
+.portrait-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 2rem; gap: 1rem;
+  background: linear-gradient(180deg, rgba(31,42,68,0.3) 0%, rgba(31,42,68,0.7) 100%);
+}
+.portrait-icon {
+  width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(198,164,90,0.15); border: 2px solid rgba(198,164,90,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem; margin-top: auto;
+}
+.portrait-label {
+  color: rgba(255,255,255,0.6); font-size: 0.8125rem; letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.portrait-ring {
+  position: absolute; inset: -20px;
+  border: 1px dashed rgba(198,164,90,0.2); border-radius: 200px 200px 140px 140px;
+  pointer-events: none;
+}
+.hero-credentials {
+  position: absolute; bottom: -1rem; right: -1.5rem;
+  background: var(--color-accent); color: var(--color-primary);
+  padding: 1rem 1.5rem; border-radius: var(--radius-md);
+  font-weight: 700; font-size: 0.875rem;
+  box-shadow: 0 8px 24px rgba(198,164,90,0.4);
+  text-align: center; line-height: 1.3;
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+.about-section { background: var(--color-white); }
+.about-image-col { position: relative; display: flex; align-items: flex-start; }
+.about-img-frame {
+  width: 75%; aspect-ratio: 4/5; border-radius: var(--radius-lg);
+  margin-left: auto;
+  background: linear-gradient(135deg, var(--color-bg-muted) 0%, var(--color-bg) 100%);
+  border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.about-img-icon { font-size: 4rem; color: var(--color-accent); opacity: 0.6; }
+.about-accent-block {
+  position: absolute; top: 2rem; right: -1.5rem; z-index: 1;
+  background: var(--color-primary); color: var(--color-white);
+  padding: 1.25rem 1.5rem; border-radius: var(--radius-md);
+  font-family: var(--font-serif); text-align: center;
+  box-shadow: 0 8px 28px var(--color-shadow-md);
+}
+.about-accent-block .num { font-size: 2.25rem; font-weight: 700; color: var(--color-accent); line-height: 1; }
+.about-accent-block .label { font-size: 0.8125rem; color: rgba(255,255,255,0.7); margin-top: 0.25rem; }
+.about-text-col { padding-left: var(--space-lg); display: flex; flex-direction: column; justify-content: space-between; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; margin-bottom: 2rem; }
+.tag {
+  display: inline-flex; align-items: center; gap: 0.375rem;
+  background: var(--color-bg-muted); color: var(--color-primary);
+  border: 1px solid var(--color-border); border-radius: 100px;
+  padding: 0.35rem 0.875rem; font-size: 0.8125rem; font-weight: 500;
+}
+
+/* ============================================================
+   SERMON CARDS
+   ============================================================ */
+.sermons-section { background: var(--color-bg); }
+.sermon-card {
+  background: var(--color-white); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 12px var(--color-shadow);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  display: flex; flex-direction: column;
+}
+.sermon-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px var(--color-shadow-md);
+}
+.sermon-card-top {
+  background: var(--color-primary); padding: 1.75rem;
+  position: relative; overflow: hidden;
+}
+.sermon-card-top::before {
+  content: '"'; position: absolute; right: 1rem; top: -0.5rem;
+  font-family: var(--font-serif); font-size: 6rem; color: rgba(198,164,90,0.12);
+  line-height: 1;
+}
+.sermon-num {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--color-accent); text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.sermon-card-top h3 {
+  font-family: var(--font-serif); font-size: 1.1875rem; color: var(--color-white);
+  font-weight: 600; line-height: 1.3;
+}
+.sermon-ref {
+  display: block; margin-top: 0.4rem;
+  font-size: 0.8125rem; color: var(--color-accent); font-style: italic;
+  font-family: var(--font-serif);
+}
+.sermon-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1.25rem; }
+.sermon-card-body p { color: var(--color-text-muted); font-size: 0.9375rem; flex: 1; }
+
+/* ============================================================
+   DEVOTIONAL CARDS
+   ============================================================ */
+.devotionals-section { background: var(--color-bg-muted); }
+.devotional-card {
+  background: var(--color-white); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem;
+  box-shadow: 0 2px 8px var(--color-shadow);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.devotional-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--color-shadow-md);
+}
+.devotional-date { font-size: 0.8125rem; color: var(--color-text-light); font-weight: 500; }
+.devotional-card h3 { font-family: var(--font-serif); font-size: 1.125rem; color: var(--color-primary); }
+.devotional-card p { color: var(--color-text-muted); font-size: 0.9375rem; flex: 1; }
+.devotional-tag {
+  display: inline-block; background: var(--color-bg);
+  color: var(--color-accent); border: 1px solid var(--color-accent-light);
+  border-radius: 100px; padding: 0.2rem 0.75rem; font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.05em; width: fit-content;
+}
+
+/* ============================================================
+   MINISTRY VALUES
+   ============================================================ */
+.values-section { background: var(--color-primary); }
+.values-section .section-header .overline { color: var(--color-accent); }
+.values-section .section-header h2 { color: var(--color-white); }
+.values-section .section-header p { color: rgba(255,255,255,0.6); }
+
+.value-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md); padding: 2rem;
+  transition: all var(--dur) var(--ease);
+}
+.value-card:hover {
+  background: rgba(255,255,255,0.09); border-color: rgba(198,164,90,0.4);
+  transform: translateY(-3px);
+}
+.value-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(198,164,90,0.15); border: 1px solid rgba(198,164,90,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 1.25rem;
+}
+.value-card h3 {
+  font-family: var(--font-serif); font-size: 1.125rem;
+  color: var(--color-white); margin-bottom: 0.625rem;
+}
+.value-card p { color: rgba(255,255,255,0.58); font-size: 0.9375rem; }
+
+/* ============================================================
+   SCRIPTURE BLOCK
+   ============================================================ */
+.scripture-section {
+  background: var(--color-bg-muted);
+  text-align: center;
+}
+.scripture-inner { max-width: 780px; margin: 0 auto; }
+.scripture-section .section-header { margin-bottom: var(--space-lg); }
+.scripture-cross {
+  font-size: 2rem; color: var(--color-accent); margin-bottom: 2rem;
+  opacity: 0.7;
+}
+.scripture-text {
+  font-family: var(--font-serif); font-size: clamp(1.1875rem, 2.5vw, 1.4375rem);
+  line-height: 1.8; color: var(--color-primary);
+  font-style: italic; position: relative;
+  padding: 2.5rem 3rem;
+}
+.scripture-text::before, .scripture-text::after {
+  content: '"'; position: absolute;
+  font-size: 6rem; color: var(--color-accent); opacity: 0.12;
+  font-style: normal; font-family: var(--font-serif); line-height: 1;
+}
+.scripture-text::before { top: 0; left: 0; }
+.scripture-text::after { content: '"'; bottom: -2rem; right: 0; }
+.scripture-ref {
+  display: inline-block; margin-top: 2rem;
+  font-size: 0.875rem; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--color-accent); text-transform: uppercase;
+}
+.scripture-divider { width: 50px; height: 2px; background: var(--color-accent); margin: 1.5rem auto; }
+
+/* ============================================================
+   HYMN SECTION
+   ============================================================ */
+.hymn-section { background: var(--color-white); }
+.hymn-inner { max-width: 720px; margin: 0 auto; }
+.hymn-stanza { 
+  margin-bottom: 2.5rem;
+  padding-left: 2rem;
+  border-left: 2px solid var(--color-accent-light);
+}
+.hymn-stanza p {
+  font-family: var(--font-serif); font-size: 1.0625rem;
+  line-height: 1.9; color: var(--color-text); font-style: italic;
+}
+.hymn-chorus {
+  background: var(--color-bg-muted); border-radius: var(--radius-md);
+  padding: 1.75rem 2rem; margin: 2rem 0;
+  text-align: center;
+}
+.hymn-chorus-label {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--color-accent); margin-bottom: 0.75rem;
+}
+.hymn-chorus p {
+  font-family: var(--font-serif); font-size: 1.125rem;
+  line-height: 2; color: var(--color-primary); font-style: italic;
+}
+
+/* ============================================================
+   CTA / CONTACT SECTION
+   ============================================================ */
+.cta-section {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #162038 100%);
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '✝';
+  position: absolute; font-size: 20rem; color: rgba(255,255,255,0.02);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  pointer-events: none; font-family: serif;
+}
+.cta-section h2 { font-family: var(--font-serif); color: var(--color-white); font-size: clamp(1.75rem, 3vw, 2.5rem); }
+.cta-section p { color: rgba(255,255,255,0.65); max-width: 520px; margin: 1rem auto 2rem; font-size: 1.0625rem; }
+.cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: #111827; color: rgba(255,255,255,0.55);
+  padding: var(--space-2xl) 0 var(--space-lg);
+}
+.footer-inner {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-xl); padding-bottom: var(--space-xl);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: var(--space-lg);
+}
+.footer-brand .name {
+  font-family: var(--font-serif); font-size: 1.125rem; color: var(--color-white);
+  font-weight: 700; margin-bottom: 0.375rem;
+}
+.footer-brand .subtitle { font-size: 0.8125rem; color: var(--color-accent); margin-bottom: 1.25rem; }
+.footer-brand p { font-size: 0.9rem; line-height: 1.7; max-width: 280px; }
+.footer-email {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  margin-top: 1rem; color: var(--color-accent); font-size: 0.875rem;
+  font-weight: 500;
+}
+.footer-col h4 {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+  margin-bottom: 1.25rem;
+}
+.footer-col ul li { margin-bottom: 0.625rem; }
+.footer-col ul a { font-size: 0.875rem; transition: color var(--dur); }
+.footer-col ul a:hover { color: var(--color-white); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p { font-size: 0.8125rem; }
+.footer-cross { color: var(--color-accent); font-size: 1rem; }
+
+/* ============================================================
+   INNER PAGES — Tab system for demo
+   ============================================================ */
+.page-tabs {
+  background: var(--color-white); border-bottom: 1px solid var(--color-border);
+  position: sticky; top: 72px; z-index: 90;
+}
+.page-tabs-inner {
+  display: flex; gap: 0; overflow-x: auto;
+}
+.page-tab {
+  padding: 1rem 1.5rem; font-size: 0.875rem; font-weight: 600;
+  color: var(--color-text-muted); border: none; background: transparent;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+  transition: all 0.2s;
+}
+.page-tab.active, .page-tab:hover {
+  color: var(--color-primary); border-bottom-color: var(--color-accent);
+}
+.page-section { display: none; }
+.page-section.active { display: block; }
+
+/* Inner page hero */
+.inner-hero {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1a2540 100%);
+  padding: var(--space-2xl) 0;
+}
+.inner-hero .overline {
+  color: var(--color-accent); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem;
+  display: block;
+}
+.inner-hero h1 { font-family: var(--font-serif); color: var(--color-white); margin-bottom: 0.75rem; }
+.inner-hero p { color: rgba(255,255,255,0.65); max-width: 560px; }
+
+/* Profile/bio section */
+.bio-section { background: var(--color-white); }
+.bio-grid { display: grid; grid-template-columns: 300px 1fr; gap: var(--space-2xl); }
+.bio-sidebar { }
+.bio-photo {
+  width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg);
+  background: var(--color-bg-muted); border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center; font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+.bio-quick-facts { display: flex; flex-direction: column; gap: 0.75rem; }
+.fact-row { display: flex; gap: 0.75rem; align-items: flex-start; }
+.fact-icon { color: var(--color-accent); font-size: 0.875rem; margin-top: 0.1rem; }
+.fact-text { font-size: 0.875rem; color: var(--color-text-muted); }
+.fact-text strong { display: block; color: var(--color-text); font-weight: 600; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.bio-content h2 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1.25rem; }
+.bio-content p { margin-bottom: 1.25rem; line-height: 1.8; color: var(--color-text-muted); }
+
+/* Education timeline */
+.education-section { background: var(--color-bg); }
+.timeline { max-width: 760px; }
+.timeline-item { display: grid; grid-template-columns: 140px 1fr; gap: var(--space-md); margin-bottom: 2.5rem; }
+.timeline-year { font-size: 0.875rem; font-weight: 700; color: var(--color-accent); padding-top: 1.5rem; }
+.timeline-card {
+  background: var(--color-white); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border); padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--color-shadow); position: relative;
+}
+.timeline-card::before {
+  content: ''; position: absolute; left: -8px; top: 1.75rem;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--color-accent); border: 3px solid var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+.timeline-card h3 { font-family: var(--font-serif); font-size: 1.0625rem; color: var(--color-primary); margin-bottom: 0.25rem; }
+.timeline-card .degree { font-size: 0.8125rem; color: var(--color-text-muted); margin-bottom: 0.25rem; }
+.timeline-card .school { font-size: 0.875rem; font-weight: 600; color: var(--color-accent); }
+
+/* Sermon list page */
+.sermons-page { background: var(--color-bg); }
+.search-bar {
+  display: flex; gap: 0.75rem; margin-bottom: var(--space-lg);
+  max-width: 560px;
+}
+.search-input {
+  flex: 1; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border); background: var(--color-white);
+  font-family: var(--font-sans); font-size: 0.9375rem; color: var(--color-text);
+  outline: none; transition: border-color var(--dur);
+}
+.search-input:focus { border-color: var(--color-primary); }
+.sermon-list-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+
+/* Testimony cards */
+.testimonies-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+.testimony-card {
+  background: var(--color-white); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border); padding: 2rem;
+  box-shadow: 0 2px 8px var(--color-shadow);
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.testimony-quote {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 1rem; line-height: 1.7; color: var(--color-text); flex: 1;
+}
+.testimony-author {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding-top: 1rem; border-top: 1px solid var(--color-border);
+}
+.author-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--color-bg-muted); border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.125rem; flex-shrink: 0;
+}
+.author-name { font-weight: 600; font-size: 0.875rem; color: var(--color-primary); }
+.author-church { font-size: 0.8125rem; color: var(--color-text-muted); }
+
+/* Contact page */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: var(--space-2xl); }
+.contact-info { display: flex; flex-direction: column; gap: 2rem; }
+.contact-card {
+  background: var(--color-white); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border); padding: 1.75rem;
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+.contact-card h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 0.75rem; }
+.contact-form { background: var(--color-white); border-radius: var(--radius-md); border: 1px solid var(--color-border); padding: 2.5rem; box-shadow: 0 2px 8px var(--color-shadow); }
+.form-row { margin-bottom: 1.5rem; }
+.form-label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+.form-input, .form-textarea, .form-select {
+  width: 100%; padding: 0.8125rem 1rem;
+  border: 1.5px solid var(--color-border); border-radius: var(--radius-sm);
+  background: var(--color-bg); font-family: var(--font-sans); font-size: 0.9375rem;
+  color: var(--color-text); transition: border-color var(--dur); outline: none;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--color-primary); background: var(--color-white); }
+.form-textarea { resize: vertical; min-height: 140px; }
+
+/* ============================================================
+   DESIGN SYSTEM SHOWCASE
+   ============================================================ */
+.ds-section { padding: var(--space-xl) 0; }
+.ds-row { margin-bottom: var(--space-xl); }
+.ds-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 1rem; }
+.ds-swatches { display: flex; gap: 1rem; flex-wrap: wrap; }
+.swatch { width: 100px; }
+.swatch-color { height: 72px; border-radius: var(--radius-sm); border: 1px solid rgba(0,0,0,0.07); margin-bottom: 0.5rem; }
+.swatch-name { font-size: 0.75rem; font-weight: 600; color: var(--color-text); }
+.swatch-hex { font-size: 0.6875rem; color: var(--color-text-muted); font-family: monospace; }
+.ds-type-row { display: flex; flex-direction: column; gap: 1.5rem; }
+.type-sample { display: flex; align-items: baseline; gap: 2rem; padding: 1rem 0; border-bottom: 1px solid var(--color-border); }
+.type-meta { min-width: 160px; font-size: 0.8125rem; color: var(--color-text-muted); }
+.ds-buttons { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+/* ============================================================
+   DEMO BANNER
+   ============================================================ */
+.demo-banner {
+  background: var(--color-accent); color: var(--color-primary);
+  text-align: center; padding: 0.75rem; font-size: 0.875rem; font-weight: 600;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; min-height: auto; padding: var(--space-2xl) 0; }
+  .hero-portrait { order: -1; margin-bottom: 1rem; }
+  .portrait-frame { max-width: 200px; }
+  .hero-text { padding-right: 0; text-align: center; }
+  .hero-actions { justify-content: center; }
+  .hero-divider { margin: 1.5rem auto; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .about-accent-block { display: none; }
+  .about-text-col { padding-left: 0; }
+  .bio-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .sermon-list-grid { grid-template-columns: 1fr; }
+  .testimonies-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: var(--space-lg); }
+  .nav-links, .nav-cta { display: none; }
+  .nav-mobile-hint { display: block; font-size: 0.8125rem; color: var(--color-accent); }
+  .timeline-item { grid-template-columns: 1fr; }
+  .timeline-year { padding-top: 0; }
+  .timeline-card::before { display: none; }
+}
+
+@media (min-width: 769px) {
+  .nav-mobile-hint { display: none; }
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-text > * {
+  animation: fadeUp 0.7s var(--ease) both;
+}
+.hero-text > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-text > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-text > *:nth-child(3) { animation-delay: 0.35s; }
+.hero-text > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-text > *:nth-child(5) { animation-delay: 0.5s; }
+.hero-portrait { animation: fadeUp 0.9s var(--ease) 0.3s both; }
+
+
+/* __VE__ */
+/* ed:div.timeline-card > div:nth-of-type(1).degree */
+div.timeline-card > div:nth-of-type(1).degree{color:#333333!important;font-size:13px!important;font-weight:400!important}
+
+/* ed:div > span:nth-of-type(2) */
+div > span:nth-of-type(2){color:#000000!important;font-size:14px!important;font-weight:400!important}
+
+/* ed:div.footer-inner > div:nth-of-type(4).footer-col */
+div.footer-inner > div:nth-of-type(4).footer-col{color:#FFFFFF!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.footer-inner > div:nth-of-type(3).footer-col */
+div.footer-inner > div:nth-of-type(3).footer-col{color:#FFFFFF!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.footer-col > h4 */
+div.footer-col > h4{color:#FFFFFF!important;font-size:11px!important;font-weight:600!important}
+
+/* ed:div.footer-inner > div:nth-of-type(2).footer-col */
+div.footer-inner > div:nth-of-type(2).footer-col{color:#ffffff!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.section-header.text-center > p */
+div.section-header.text-center > p{color:#ffffff!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.devotional-card > div.devotional-date */
+div.devotional-card > div.devotional-date{color:#2d3e63!important;font-size:13px!important;font-weight:500!important}
+
+/* ed:div.sermon-card-body > p */
+div.sermon-card-body > p{color:#333333!important;font-size:15px!important;font-weight:400!important}
+
+/* ed:div.fact-row > div.fact-text */
+div.fact-row > div.fact-text{color:#2d3e63!important;font-size:14px!important;font-weight:400!important}
+
+/* ed:div.bio-content > p:nth-of-type(4) */
+div.bio-content > p:nth-of-type(4){color:#333333!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.bio-content > p:nth-of-type(3) */
+div.bio-content > p:nth-of-type(3){color:#333333!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.bio-content > p:nth-of-type(2) */
+div.bio-content > p:nth-of-type(2){color:#333333!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.bio-content > p:nth-of-type(1) */
+div.bio-content > p:nth-of-type(1){color:#333333!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.bio-grid > div:nth-of-type(2).bio-content */
+div.bio-grid > div:nth-of-type(2).bio-content{color:#333333!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.about-tags > span:nth-of-type(4).tag */
+div.about-tags > span:nth-of-type(4).tag{color:#000000!important;font-size:12px!important;font-weight:600!important}
+
+/* ed:div.about-tags > span:nth-of-type(3).tag */
+div.about-tags > span:nth-of-type(3).tag{color:#000000!important;font-size:12px!important;font-weight:600!important}
+
+/* ed:div.about-tags > span:nth-of-type(2).tag */
+div.about-tags > span:nth-of-type(2).tag{color:#000000!important;font-size:12px!important;font-weight:600!important}
+
+/* ed:div.about-tags > span:nth-of-type(1).tag */
+div.about-tags > span:nth-of-type(1).tag{color:#000000!important;font-size:12px!important;font-weight:600!important}
+
+/* ed:div.about-tags > span:nth-of-type(5).tag */
+div.about-tags > span:nth-of-type(5).tag{color:#000000!important;font-size:12px!important;font-weight:600!important}
+
+/* ed:div.about-text-col > p:nth-of-type(1).t-body-lg */
+div.about-text-col > p:nth-of-type(1).t-body-lg{color:#333333!important;font-size:17px!important;font-weight:400!important}
+
+/* ed:div.section-header > p */
+div.section-header > p{color:#333333!important;font-size:16px!important;font-weight:400!important}
+
+/* ed:div.about-text-col > p:nth-of-type(2) */
+div.about-text-col > p:nth-of-type(2){color:#333333!important;font-size:17px!important;font-weight:400!important}
+
+/* ed:a.nav-brand > span:nth-of-type(2).brand-subtitle */
+a.nav-brand > span:nth-of-type(2).brand-subtitle{color:#b8933e!important;font-size:11px!important;font-weight:400!important}
+</style>
+</head>
+<body>
+
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <span class="brand-name">George A. Small  , Ed.D.</span>
+        <span class="brand-subtitle">Pastor · Teacher · Author</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="javascript:void(0)" class="active" onclick="showPage('home')">Home</a></li>
+        <li class="has-dropdown">
+          <a href="javascript:void(0)" onclick="showPage('about')">About</a>
+          <div class="dropdown">
+            <div class="dropdown-inner">
+            <a href="javascript:void(0)" onclick="showPage('about', 'about-biography')">Biography</a>
+            <a href="javascript:void(0)" onclick="showPage('about', 'about-education')">Education</a>
+            <a href="javascript:void(0)" onclick="showPage('about', 'about-experience')">Experience</a>
+            <a href="javascript:void(0)" onclick="showPage('about', 'about-presently')">Presently</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="javascript:void(0)" onclick="showPage('sermons')">Sermons</a></li>
+        <li><a href="javascript:void(0)" onclick="showPage('devotionals')">Devotionals</a></li>
+        <li><a href="javascript:void(0)" onclick="showPage('testimonies')">Testimonials</a></li>
+        <li><a href="javascript:void(0)" onclick="showPage('contact')">Contact</a></li>
+        <li class="has-dropdown">
+          <a href="javascript:void(0)">More</a>
+          <div class="dropdown">
+            <div class="dropdown-inner">
+            <a href="javascript:void(0)" onclick="showPage('present-work')">Present Work</a>
+            <a href="javascript:void(0)" onclick="showPage('family')">Family</a>
+            <a href="javascript:void(0)" onclick="showPage('core-values')">Core Values</a>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+      <span class="nav-mobile-hint">☰ Menu</span>
+      <div class="nav-cta">
+        <a href="/cdn-cgi/l/email-protection#9afde9f7fbf6f6aba9dafdf7fbf3f6b4f9f5f7" class="btn btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.875rem;">Connect</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<!-- ============================================================
+     PAGE: HOMEPAGE
+     ============================================================ -->
+<div id="page-home" class="page-section active">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="hero-overline"><span></span>Ministry · Teaching · Community</div>
+          <h1>George A. <em>Small  </em><br>Ed.D.</h1>
+          <div class="hero-divider"></div>
+          <p class="hero-subtitle">Teaching Biblical Truth With Clarity and Faith — serving God's people through the Word, worship, and discipleship.</p>
+          <div class="hero-actions">
+            <a href="#" class="btn btn-gold" onclick="showPage('sermons')">Watch Sermons</a>
+            <a href="#" class="btn btn-secondary" style="color:#fff; border-color:rgba(255,255,255,0.4);" onclick="showPage('devotionals')">Read Devotionals</a>
+          </div>
+        </div>
+        <div class="hero-portrait">
+          <div class="portrait-ring"></div>
+          <div class="portrait-frame">
+            <img src="" alt="George A. Small  , Ed.D." style="width:100%; height:100%; object-fit:cover; object-position:center top;">
+          </div>
+          <div class="hero-credentials">
+            Doctor of Education<br><span style="color:rgba(31,42,68,0.7); font-weight:400; font-size:0.8125rem;">Ordained Pastor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT PREVIEW -->
+  <section class="section about-section">
+    <div class="container">
+      <div class="grid-2">
+        <div class="about-image-col">
+          <div class="about-img-frame" style="overflow:hidden;">
+            <img src="" alt="George A. Small  , Ed.D." style="width:100%; height:100%; object-fit:cover; object-position:center top;">
+          </div>
+          <div class="about-accent-block">
+            <div class="num">40+</div>
+            <div class="label">Years in Ministry</div>
+          </div>
+        </div>
+        <div class="about-text-col">
+          <div class="section-header">
+            <div class="overline">About George</div>
+            <h2>A Life Dedicated to<br>Biblical Teaching</h2>
+          </div>
+          <p class="t-body-lg" style="color:var(--color-text-muted); margin-bottom:1.5rem;">Dr. George A. Small   is a pastor, educator, and author whose life's work centers on making Scripture accessible, relevant, and transformative for every believer.</p>
+          <p style="color:var(--color-text-muted); margin-bottom:2rem;">With a Doctor of Education and decades of ministry experience, Dr. Small brings both scholarly depth and pastoral warmth to his teaching. He is committed to discipleship, community, and the faithful proclamation of God's Word.</p>
+          <div class="about-tags">
+            <span class="tag">📚 Author</span>
+            <span class="tag">🎓 Ed.D.</span>
+            <span class="tag">🙏 Evangelist</span>
+            <span class="tag">✝ Ordained Pastor</span>
+            <span class="tag">🎤 Speaker</span>
+          </div>
+          <a href="#" class="btn btn-primary" onclick="showPage('about')">Learn More About George</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED SERMONS -->
+  <section class="section sermons-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="overline">Recent Sermons</div>
+        <h2>Featured Messages</h2>
+        <p>Explore teachings grounded in Scripture and delivered with pastoral clarity.</p>
+      </div>
+      <div class="grid-3">
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 01</div>
+            <h3>Hope</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>A reflection on the Christian hope that sustains believers through uncertainty, grounding faith in God's promises and the assurance of His faithful presence.</p>
+            <a href="#" class="btn btn-primary" style="width:fit-content;">Watch Sermon</a>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 02</div>
+            <h3>Pharaoh</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>Examining Pharaoh's hardened heart in Exodus and the warning it provides about pride, resistance to God, and the consequences of ignoring divine authority.</p>
+            <a href="#" class="btn btn-primary" style="width:fit-content;">Watch Sermon</a>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 03</div>
+            <h3>Heaven</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>Exploring the biblical vision of heaven—its promise, its hope for believers, and how eternity with God reshapes our priorities today.</p>
+            <a href="#" class="btn btn-primary" style="width:fit-content;">Watch Sermon</a>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:var(--space-lg);">
+        <a href="#" class="btn btn-secondary" onclick="showPage('sermons')">View All Sermons →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVOTIONALS -->
+  <section class="section devotionals-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="overline">Devotionals</div>
+        <h2>Daily Reflections</h2>
+        <p>Brief meditations to anchor your heart in God's Word throughout the week.</p>
+      </div>
+      <div class="grid-3">
+        <div class="devotional-card">
+          <span class="devotional-tag">Evangelism</span>
+          <div class="devotional-date">February 14, 2022</div>
+          <h3>Evangelism</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Holiness</span>
+          <div class="devotional-date">November 9, 2020</div>
+          <h3>Encounter with God</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Faith</span>
+          <div class="devotional-date">June 22, 2020</div>
+          <h3>Living Victoriously Through Covid-19</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:var(--space-lg);">
+        <a href="#" class="btn btn-secondary" onclick="showPage('devotionals')">All Devotionals →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MINISTRY VALUES -->
+  <section class="section values-section">
+    <div class="container">
+      <div class="section-header text-center centered">
+        <div class="overline">Core Commitments</div>
+        <h2>Ministry Values</h2>
+        <p>The convictions that shape every sermon, teaching, and pastoral encounter.</p>
+      </div>
+      <div class="grid-4">
+        <div class="value-card">
+          <div class="value-icon">✝</div>
+          <h3>Faith</h3>
+          <p>Every ministry begins and ends with trust in God — the Author and Finisher of our faith, whose Word does not return void.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">📖</div>
+          <h3>Biblical Teaching</h3>
+          <p>Sound doctrine rooted in careful exposition of Scripture, making the ancient Word fresh and applicable for today's believers.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌱</div>
+          <h3>Discipleship</h3>
+          <p>Walking alongside believers as they grow in grace, knowledge, and Christ-likeness — one relationship, one conversation at a time.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <h3>Community</h3>
+          <p>The church is a family. Ministry happens in relationship — gathered around the table, the Word, and the shared life of faith.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCRIPTURE -->
+  <section class="section-sm scripture-section">
+    <div class="container">
+      <div class="scripture-inner">
+        <div class="section-header text-center centered">
+          <div class="overline">Life's Theme Passage</div>
+          <h2>A Word That Guides</h2>
+        </div>
+        <div class="scripture-cross">✦</div>
+        <div class="scripture-divider"></div>
+        <blockquote class="scripture-text">
+          Rejoice always, pray continually, give thanks in all circumstances; for this is God's will for you in Christ Jesus. Do not quench the Spirit. Do not treat prophecies with contempt but test them all; hold on to what is good, reject every kind of evil. May God himself, the God of peace, sanctify you through and through. May your whole spirit, soul and body be kept blameless at the coming of our Lord Jesus Christ. The one who calls you is faithful, and he will do it.
+        </blockquote>
+        <div class="scripture-divider"></div>
+        <span class="scripture-ref">1 Thessalonians 5:16–24 (NIV)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HYMN -->
+  <section class="section hymn-section">
+    <div class="container">
+      <div class="section-header text-center centered" style="margin-bottom:var(--space-lg);">
+        <div class="overline">Life's Hymn</div>
+        <h2>In the Garden</h2>
+        <p style="margin:0.75rem auto 0; max-width:400px;">by C. Austin Miles, 1912</p>
+      </div>
+      <div class="hymn-inner">
+        <div class="hymn-stanza">
+          <p>I come to the garden alone,<br>
+          While the dew is still on the roses,<br>
+          And the voice I hear, falling on my ear,<br>
+          The Son of God discloses.</p>
+        </div>
+        <div class="hymn-chorus">
+          <div class="hymn-chorus-label">Chorus</div>
+          <p>And He walks with me, and He talks with me,<br>
+          And He tells me I am His own;<br>
+          And the joy we share as we tarry there,<br>
+          None other has ever known.</p>
+        </div>
+        <div class="hymn-stanza">
+          <p>He speaks, and the sound of His voice<br>
+          Is so sweet the birds hush their singing,<br>
+          And the melody that He gave to me<br>
+          Within my heart is ringing.</p>
+        </div>
+        <div class="hymn-stanza">
+          <p>I'd stay in the garden with Him<br>
+          Though the night around me be falling,<br>
+          But He bids me go; through the voice of woe,<br>
+          His voice to me is calling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-sm cta-section">
+    <div class="container">
+      <h2>Let's Walk This Journey Together</h2>
+      <p>Whether you're seeking a sermon, a word of encouragement, or simply want to connect — the door is open. Reach out today.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-gold" onclick="showPage('contact')">Get in Touch</a>
+        <a href="#" class="btn" style="background:rgba(255,255,255,0.1); color:#fff; border-color:rgba(255,255,255,0.25);" onclick="showPage('sermons')">Explore Sermons</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="name">George A. Small  , Ed.D.</div>
+          <div class="subtitle">Pastor · Teacher · Author</div>
+          <p>Committed to the faithful teaching of God's Word and the discipleship of believers across every season of life.</p>
+          <a href="/cdn-cgi/l/email-protection#543327393538386567727762606f3339353d387a373b39" class="footer-email">✉ gsmall13@gmail.com</a>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Sermons</a></li>
+            <li><a href="#">Devotionals</a></li>
+            <li><a href="#">Ministry</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>About</h4>
+          <ul>
+            <li><a href="#">Education</a></li>
+            <li><a href="#">Experience</a></li>
+            <li><a href="#">Certifications</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Newsletter</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 George A. Small  , Ed.D. All rights reserved.</p>
+        <span class="footer-cross">✦</span>
+        <p>Designed with faith and purpose.</p>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end page-home -->
+
+
+<!-- ============================================================
+     PAGE: ABOUT
+     ============================================================ -->
+<div id="page-about" class="page-section">
+
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">Pastor · Teacher · Author</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">About George A. Small  </h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:560px; margin-top:0.75rem;">A life shaped by Scripture, education, and faithful service to God's people.</p>
+    </div>
+  </div>
+
+  <section class="section bio-section" id="about-biography">
+    <div class="container">
+      <div class="bio-grid">
+        <div class="bio-sidebar">
+          <div class="bio-photo" style="overflow:hidden; padding:0;">
+            <img src="" alt="George A. Small  , Ed.D." style="width:100%; height:100%; object-fit:cover; object-position:center top;">
+          </div>
+          <div class="bio-quick-facts">
+            <div class="fact-row">
+              <span class="fact-icon">🎓</span>
+              <div class="fact-text"><strong>Education</strong>Doctor of Education (Ed.D.)</div>
+            </div>
+            <div class="fact-row">
+              <span class="fact-icon">✝</span>
+              <div class="fact-text"><strong>Role</strong>Ordained Pastor</div>
+            </div>
+            <div class="fact-row">
+              <span class="fact-icon">📚</span>
+              <div class="fact-text"><strong>Works</strong>Author, Speaker, Teacher</div>
+            </div>
+            <div class="fact-row">
+              <span class="fact-icon">📍</span>
+              <div class="fact-text"><strong>Ministry Base</strong>United States</div>
+            </div>
+          </div>
+        </div>
+        <div class="bio-content">
+          <h2>Biography</h2>
+          <p>Dr. George A. Small   has devoted his life to the ministry of God's Word. As a pastor, educator, and author, he brings together academic rigor and pastoral warmth in every sermon, teaching, and written work he produces.</p>
+          <p>Trained at the highest levels of formal education, Dr. Small earned his Doctor of Education and has applied its disciplines to the work of biblical instruction and church leadership. His approach to teaching is characterized by careful exegesis, practical application, and an unwavering commitment to the authority of Scripture.</p>
+          <p>Over the course of his ministry, he has served congregations, led educational programs, and developed resources designed to disciple believers and equip leaders for the work of the Gospel. His written devotionals and sermon resources have reached believers across denominations and backgrounds.</p>
+          <p>Dr. Small's life theme passage — 1 Thessalonians 5:16–24 — reflects his personal philosophy of ministry: rejoicing in all things, praying without ceasing, and trusting the God of peace to sanctify His people completely.</p>
+          <div style="margin-top:2rem;">
+            <a href="#" class="btn btn-primary">Download Full CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section education-section" id="about-education">
+    <div class="container">
+      <div class="section-header">
+        <div class="overline">Academic Background</div>
+        <h2>Education</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">August 2002</div>
+          <div class="timeline-card">
+            <h3>Doctor of Education (Ed.D.)</h3>
+            <div class="degree">Organizational Leadership</div>
+            <div class="school">Trevecca Nazarene University, Nashville, Tennessee</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">July 1996</div>
+          <div class="timeline-card">
+            <h3>Master of Science (M.Sc.)</h3>
+            <div class="degree">Education Administration and Supervision</div>
+            <div class="school">Canisius College, Buffalo, New York</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">May 1975</div>
+          <div class="timeline-card">
+            <h3>Bachelor of Arts (B.A.)</h3>
+            <div class="degree">Religion</div>
+            <div class="school">Eastern Nazarene College, Quincy, Massachusetts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK EXPERIENCE + ADDITIONAL + PRESENTLY + COMMUNITY (combined compact section) -->
+  <section class="section" id="about-experience" style="background:var(--color-bg-muted); padding-top:var(--space-2xl); padding-bottom:var(--space-2xl);">
+    <div class="container">
+
+      <!-- ── Work Experience ── -->
+      <div class="section-header" style="margin-bottom:var(--space-lg);">
+        <div class="overline">Professional Background</div>
+        <h2>Work Experience</h2>
+      </div>
+
+      <div style="background:var(--color-white); border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden; box-shadow:0 2px 8px var(--color-shadow); margin-bottom:var(--space-xl);">
+        <!-- row -->
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Nov. 2005 – Present</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Owner</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Noble Properties of Mount Vernon, LLC</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Aug. 2003 – Oct. 2005</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Assistant Professor</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Mount Vernon Nazarene University</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Aug. 1999 – July 2003</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Director of Academic Services</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Mount Vernon Nazarene University</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Aug. 1997 – Aug. 1999</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Curriculum &amp; Technology Specialist</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Mount Vernon Nazarene University</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Aug. 1996 – July 1997</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Secondary School Principal <span style="font-weight:400; font-size:0.8125rem;">(7th–12th)</span></span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Cornerstone Christian School</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Sept. 1991 – Aug. 1995</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Chaplain &amp; Bible Teacher</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Peoples' Christian Academy</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Sept. 1993 – Aug. 1993</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Computer Science Teacher</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Peoples' Christian Academy</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">May 1972 – June 1991</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Pastor</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Church of the Nazarene, Various Churches</span></div>
+        </div>
+      </div>
+
+      <!-- ── Additional Work Experience ── -->
+      <div class="section-header" style="margin-bottom:var(--space-lg);">
+        <div class="overline">Entrepreneurial</div>
+        <h2>Additional Work Experience</h2>
+      </div>
+
+      <div style="background:var(--color-white); border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden; box-shadow:0 2px 8px var(--color-shadow); margin-bottom:var(--space-xl);">
+        <div style="display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--color-border); padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Sept. 1991 – Present</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Founder, Owner &amp; Operator</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Simplified Computing</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr; padding:1rem 1.5rem; gap:1.25rem; align-items:baseline;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--color-accent); white-space:nowrap;">Sept. 1978 – Oct. 1986</span>
+          <div><span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9875rem;">Founder &amp; Administrator</span> <span style="color:var(--color-text-muted); font-size:0.875rem;">· Nazarene PreSchool Day Care Center</span></div>
+        </div>
+      </div>
+
+      <!-- ── Presently + Community side by side ── -->
+      <div id="about-presently" style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-lg); align-items:start;">
+
+        <!-- Presently -->
+        <div>
+          <div class="section-header" style="margin-bottom:var(--space-md);">
+            <div class="overline">Current Roles</div>
+            <h2>Presently</h2>
+          </div>
+          <div style="background:var(--color-white); border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden; box-shadow:0 2px 8px var(--color-shadow);">
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Interim Pastor</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Newcomerstown, OH Church of the Nazarene</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Treasurer</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Mount Vernon Association of Police Chaplains</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Member &amp; Past President</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Mount Vernon, Ohio Rotary Club</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Board of Directors</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">TouchPoint</span>
+            </div>
+            <div style="padding:1rem 1.5rem; display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Endorsed Speaker</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Francis Asbury Society</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Involvement -->
+        <div>
+          <div class="section-header" style="margin-bottom:var(--space-md);">
+            <div class="overline">Service &amp; Civic Engagement</div>
+            <h2>Community</h2>
+          </div>
+          <div style="background:var(--color-white); border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden; box-shadow:0 2px 8px var(--color-shadow);">
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Chaplain &amp; Treasurer</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Mount Vernon Police Chaplains</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Member</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Francis Asbury Society</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Board Member</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">TouchPoint Community Resources</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Vice President</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Peniel Holiness Camp</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">President &amp; Asst. District Governor</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Mount Vernon Rotary Club</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Board Member</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Knox County Chamber of Commerce</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Advisory Board Member</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Starting Point Pregnancy &amp; Family Resource Center</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Volunteer Hospital Chaplain</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Board of Trustees President</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Metropolitan Philadelphia YMCA</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Treasurer</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Kiwanis Club of Norristown</span>
+            </div>
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Newsletter Publisher</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Philadelphia Area Repeater Association</span>
+            </div>
+            <div style="padding:1rem 1.5rem; display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-family:var(--font-serif); font-weight:600; color:var(--color-primary); font-size:0.9375rem;">Board Secretary</span>
+              <span style="font-size:0.8125rem; color:var(--color-text-muted);">Lawrence County Amateur Radio Association</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end presently+community grid -->
+
+    </div>
+  </section>
+
+</div><!-- end page-about -->
+
+
+<!-- ============================================================
+     PAGE: SERMONS
+     ============================================================ -->
+<div id="page-sermons" class="page-section">
+
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">Teachings &amp; Messages</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">Sermon Library</h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:500px; margin-top:0.75rem;">Browse biblical messages organized by Scripture, topic, and date.</p>
+    </div>
+  </div>
+
+  <section class="section sermons-page">
+    <div class="container">
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search by title, passage, or topic…">
+        <button class="btn btn-primary">Search</button>
+      </div>
+      <div class="sermon-list-grid">
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 01</div>
+            <h3>Hope</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>A reflection on the Christian hope that sustains believers through uncertainty, grounding faith in God's promises and the assurance of His faithful presence.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 02</div>
+            <h3>Pharaoh</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>Examining Pharaoh's hardened heart in Exodus and the warning it provides about pride, resistance to God, and the consequences of ignoring divine authority.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 03</div>
+            <h3>Heaven</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>Exploring the biblical vision of heaven—its promise, its hope for believers, and how eternity with God reshapes our priorities today.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 04</div>
+            <h3>An Encounter with God</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>Looking at moments in Scripture where people encountered God personally and how those encounters transformed their faith, purpose, and obedience.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 05</div>
+            <h3>Intimacy with God</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>A message on developing a deeper relationship with God through prayer, surrender, and daily devotion to His presence.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 06</div>
+            <h3>Life Isn't Fair</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>Addressing the reality of hardship and injustice while pointing to God's faithfulness and purpose even in seasons that feel undeserved.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 07</div>
+            <h3>Integrity</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>A call to live with integrity before God and others, cultivating a consistent character that reflects Christ in both public life and private moments.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="sermon-card">
+          <div class="sermon-card-top">
+            <div class="sermon-num">Sermon 08</div>
+            <h3>Farewell 2020 – Hello 2021</h3>
+            
+            
+          </div>
+          <div class="sermon-card-body">
+            <p>Reflecting on lessons from a difficult year while encouraging faith, gratitude, and renewed trust in God's guidance for the future ahead.</p>
+            <div style="display:flex; gap:0.75rem;">
+              <a href="#" class="btn btn-primary" style="font-size:0.875rem; padding:0.6rem 1rem;">Watch</a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-sermons -->
+
+
+<!-- ============================================================
+     PAGE: DEVOTIONALS
+     ============================================================ -->
+<div id="page-devotionals" class="page-section">
+
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">Daily Reflections</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">Devotionals</h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:500px; margin-top:0.75rem;">Brief meditations rooted in Scripture to guide your walk with God each day.</p>
+    </div>
+  </div>
+
+  <section class="section devotionals-section">
+    <div class="container">
+      <div class="grid-3">
+        <div class="devotional-card">
+          <span class="devotional-tag">Evangelism</span>
+          <div class="devotional-date">February 14, 2022</div>
+          <h3>Evangelism</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Holiness</span>
+          <div class="devotional-date">November 9, 2020</div>
+          <h3>Encounter with God</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Faith</span>
+          <div class="devotional-date">June 22, 2020</div>
+          <h3>Living Victoriously Through Covid-19</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Holiness</span>
+          <div class="devotional-date">May 12, 2020</div>
+          <h3>Where is Your Holy Place?</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Trust</span>
+          <div class="devotional-date">April 11, 2022</div>
+          <h3>Is God in Control?</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Preaching</span>
+          <div class="devotional-date">September 21, 2020</div>
+          <h3>Biblical Preaching</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+        <div class="devotional-card">
+          <span class="devotional-tag">Spiritual Warfare</span>
+          <div class="devotional-date">March 29, 2021</div>
+          <h3>The Enemy of Our Soul</h3>
+          <p>Francis Asbury Society</p>
+          <a href="#" class="btn btn-ghost">Watch Here</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-devotionals -->
+
+
+<!-- ============================================================
+     PAGE: TESTIMONIES
+     ============================================================ -->
+<div id="page-testimonies" class="page-section">
+
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">What Others Are Saying</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">Testimonials</h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:500px; margin-top:0.75rem;">Stories of lives touched by faithful biblical teaching and pastoral ministry.</p>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--color-bg);">
+    <div class="container">
+      <div class="testimonies-grid">
+        <div class="testimony-card">
+          <p class="testimony-quote">"Dr. Small's teaching has profoundly shaped how I read and apply Scripture. His clarity and depth changed the way I approach the Word of God in my daily life."</p>
+          <div class="testimony-author">
+            <div class="author-avatar">🙏</div>
+            <div>
+              <div class="author-name">Robert M.</div>
+              <div class="author-church">First Baptist Church</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimony-card">
+          <p class="testimony-quote">"I came to one of his sermons during a very difficult season of my life. The message that morning was exactly what I needed — it was as if he was preaching directly to me."</p>
+          <div class="testimony-author">
+            <div class="author-avatar">✝</div>
+            <div>
+              <div class="author-name">Carla W.</div>
+              <div class="author-church">Community of Faith Church</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimony-card">
+          <p class="testimony-quote">"His devotionals have become a staple of my morning quiet time. Each reflection is thoughtful, grounded, and genuinely encouraging without being surface-level."</p>
+          <div class="testimony-author">
+            <div class="author-avatar">📖</div>
+            <div>
+              <div class="author-name">Pastor James T.</div>
+              <div class="author-church">New Life Fellowship</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimony-card">
+          <p class="testimony-quote">"The discipleship program Dr. Small led was transformative for our congregation. We had never experienced such intentional, Scripture-grounded community before."</p>
+          <div class="testimony-author">
+            <div class="author-avatar">🌱</div>
+            <div>
+              <div class="author-name">Linda D.</div>
+              <div class="author-church">Grace Covenant Church</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimony-card">
+          <p class="testimony-quote">"As a young minister, Dr. Small became a mentor to me. His wisdom, patience, and love for God's people have been a model I carry with me into my own ministry."</p>
+          <div class="testimony-author">
+            <div class="author-avatar">🎓</div>
+            <div>
+              <div class="author-name">Rev. Marcus H.</div>
+              <div class="author-church">Bethel Community Church</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimony-card">
+          <p class="testimony-quote">"I was skeptical of online devotionals, but Dr. Small's writing is different. There's a sincerity and depth to every word that draws you back every single week."</p>
+          <div class="testimony-author">
+            <div class="author-avatar">💬</div>
+            <div>
+              <div class="author-name">Angela S.</div>
+              <div class="author-church">Online Ministry Community</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-testimonies -->
+
+
+<!-- ============================================================
+     PAGE: CONTACT
+     ============================================================ -->
+<div id="page-contact" class="page-section">
+
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">Reach Out</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">Contact Dr. Small</h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:500px; margin-top:0.75rem;">For speaking inquiries, ministry questions, or general correspondence.</p>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--color-bg);">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-card">
+            <h3>Email</h3>
+            <p style="color:var(--color-text-muted); margin:0.5rem 0 1rem;">The best way to reach Dr. Small for speaking, ministry, or personal correspondence.</p>
+            <a href="/cdn-cgi/l/email-protection#3d5a4e505c51510c0e1b1e0b09065a505c5451135e5250" class="btn btn-primary">gsmall13@gmail.com</a>
+          </div>
+          <div class="contact-card">
+            <h3>Speaking Requests</h3>
+            <p style="color:var(--color-text-muted); margin:0.5rem 0;">Dr. Small is available for church services, conferences, seminars, and educational engagements. Please use the form to describe your event and needs.</p>
+          </div>
+          <div class="contact-card">
+            <h3>Ministry Inquiries</h3>
+            <p style="color:var(--color-text-muted); margin:0.5rem 0;">For questions about published works, devotional resources, or discipleship programs, please reach out via email or the form.</p>
+          </div>
+        </div>
+        <div class="contact-form">
+          <h2 style="font-family:var(--font-serif); color:var(--color-primary); margin-bottom:1.75rem; font-size:1.5rem;">Send a Message</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
+            <div class="form-row">
+              <label class="form-label">First Name</label>
+              <input type="text" id="contact-fname" class="form-input" placeholder="Your first name">
+            </div>
+            <div class="form-row">
+              <label class="form-label">Last Name</label>
+              <input type="text" id="contact-lname" class="form-input" placeholder="Your last name">
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="contact-email" class="form-input" placeholder="your@email.com">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Subject</label>
+            <input type="text" id="contact-subject" class="form-input" placeholder="What is your message about?">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Message</label>
+            <textarea id="contact-message" class="form-textarea" placeholder="Share your message, question, or request here…"></textarea>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="sendContactEmail()">Send Message →</button>
+          <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+          function sendContactEmail() {
+            var fname   = document.getElementById('contact-fname').value.trim();
+            var lname   = document.getElementById('contact-lname').value.trim();
+            var email   = document.getElementById('contact-email').value.trim();
+            var subject = document.getElementById('contact-subject').value.trim();
+            var message = document.getElementById('contact-message').value.trim();
+            if (!fname && !lname && !email && !subject && !message) {
+              alert('Please fill in at least one field before sending.');
+              return;
+            }
+            var body = '';
+            if (fname || lname) body += 'From: ' + (fname + ' ' + lname).trim() + '\n';
+            if (email)          body += 'Reply-to: ' + email + '\n';
+            if (body)           body += '\n';
+            body += message;
+            var mailto = 'mailto:gsmall13@gmail.com'
+              + '?subject=' + encodeURIComponent(subject || 'Message from website')
+              + '&body='    + encodeURIComponent(body);
+            window.location.href = mailto;
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-contact -->
+
+
+<!-- ============================================================
+     PAGE: DESIGN SYSTEM
+     ============================================================ -->
+<!-- ============================================================
+     PAGE: PRESENT WORK
+     ============================================================ -->
+<div id="page-present-work" class="page-section">
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">Ministry Today</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">Present Work</h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:500px; margin-top:0.75rem;">What God is doing through Dr. Small's ministry right now.</p>
+    </div>
+  </div>
+  <section class="section" style="background:var(--color-bg);">
+    <div class="container" style="max-width:720px;">
+      <div style="font-family:var(--font-serif); font-size:2rem; font-weight:700; color:var(--color-primary); margin-bottom:0.25rem;">Presently</div>
+      <div style="font-family:var(--font-serif); font-size:1.375rem; color:var(--color-gold); font-weight:600; margin-bottom:var(--space-lg);">2023</div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:var(--space-md);">
+        <li style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+          <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.0625rem;">Interim Pastor</strong>
+          <div style="color:var(--color-text-muted); margin-top:0.25rem;">Newcomerstown, Ohio Church of the Nazarene</div>
+        </li>
+        <li style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+          <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.0625rem;">Treasurer</strong>
+          <div style="color:var(--color-text-muted); margin-top:0.25rem;">Mount Vernon Association of Police Chaplains</div>
+        </li>
+        <li style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+          <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.0625rem;">Member</strong>
+          <div style="color:var(--color-text-muted); margin-top:0.25rem;">Mount Vernon, Ohio Rotary Club</div>
+          <ul style="list-style:none; padding:0; margin:0.5rem 0 0 0; display:flex; flex-direction:column; gap:0.25rem;">
+            <li style="color:var(--color-text-light); font-size:0.9rem;">— Past President</li>
+            <li style="color:var(--color-text-light); font-size:0.9rem;">— Past Assistant District Governor</li>
+          </ul>
+        </li>
+        <li style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+          <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.0625rem;">Board of Directors</strong>
+          <div style="color:var(--color-text-muted); margin-top:0.25rem;">TouchPoint</div>
+        </li>
+        <li style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+          <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.0625rem;">Endorsed Speaker</strong>
+          <div style="color:var(--color-text-muted); margin-top:0.25rem;">Francis Asbury Society</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div><!-- end page-present-work -->
+
+<!-- ============================================================
+     PAGE: FAMILY
+     ============================================================ -->
+<div id="page-family" class="page-section">
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">The Small Family</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">Family</h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:500px; margin-top:0.75rem;">The people who walk alongside Dr. Small in ministry and life.</p>
+    </div>
+  </div>
+  <section class="section" style="background:var(--color-bg);">
+    <div class="container" style="max-width:720px; display:flex; flex-direction:column; gap:var(--space-lg);">
+
+      <div style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+        <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.25rem;">Jason A. Small</strong>
+        <div style="color:var(--color-text-muted); margin-top:0.25rem;">Member of Columbia Baptist Church</div>
+        <div style="color:var(--color-text-muted);">Falls Church, Virginia</div>
+        <div style="margin-top:0.75rem;">
+          <a href="#" style="color:var(--color-gold); font-weight:600; text-decoration:underline; text-underline-offset:3px;">Commercial for Tithing</a>
+        </div>
+      </div>
+
+      <div style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+        <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.25rem;">Lucy Small</strong>
+      </div>
+
+      <div style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+        <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.25rem;">Henry and Lucy Small</strong>
+      </div>
+
+      <div style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+        <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.25rem;">Grandma Lynda</strong>
+      </div>
+
+      <div style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+        <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.25rem;">Justin A. Small</strong>
+      </div>
+
+      <div style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+        <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.25rem;">April Small</strong>
+      </div>
+
+      <div style="border-left:3px solid var(--color-gold); padding-left:var(--space-md);">
+        <strong style="color:var(--color-primary); font-family:var(--font-serif); font-size:1.25rem;">Missy Small</strong>
+      </div>
+
+    </div>
+  </section>
+</div><!-- end page-family -->
+
+<!-- ============================================================
+     PAGE: CORE VALUES
+     ============================================================ -->
+<div id="page-core-values" class="page-section">
+  <div class="inner-hero">
+    <div class="container">
+      <span class="overline">Guiding Principles</span>
+      <h1 class="t-h1" style="font-family:var(--font-serif); color:#fff;">Core Values</h1>
+      <p style="color:rgba(255,255,255,0.65); max-width:500px; margin-top:0.75rem;">The convictions that shape Dr. Small's life, ministry, and message.</p>
+    </div>
+  </div>
+  <section class="section" style="background:var(--color-bg);">
+    <div class="container" style="max-width:780px;">
+
+      <!-- Tagline -->
+      <div style="text-align:center; margin-bottom:var(--space-2xl);">
+        <p style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-gold); font-style:italic; line-height:1.6;">Christian — Holiness — Missional</p>
+        <div style="width:60px; height:3px; background:var(--color-gold); margin:1rem auto 0;"></div>
+      </div>
+
+      <!-- Intro -->
+      <div style="margin-bottom:var(--space-2xl);">
+        <h2 style="font-family:var(--font-serif); font-size:1.75rem; color:var(--color-primary); margin-bottom:1rem;">A Living Faith: What Nazarenes Believe</h2>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem;">Every organization that endures over time is based on a deeply shared combination of purpose, belief, and values. So it is with the Church of the Nazarene. It was founded to transform the world by spreading scriptural holiness — both a Great Commission church and a Holiness church at the same time. Our mission is to make Christlike disciples of all nations.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-top:1rem;">The present and future life of the Church of the Nazarene is defined by participation in the mission of God — an expression of the Church of Jesus Christ, made distinct not just by what it believes but by how it contributes uniquely to the kingdom of God.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-top:1rem; font-style:italic;">We pray that our core values will continue to serve as a guiding light for those who must make their way through the light and shadows of the decades that lie ahead.</p>
+      </div>
+
+      <!-- Value 1 -->
+      <div style="margin-bottom:var(--space-2xl); padding:var(--space-xl); background:var(--color-bg-muted); border-radius:var(--radius-lg); border-top:4px solid var(--color-gold);">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <div style="width:48px; height:48px; background:var(--color-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span style="color:var(--color-gold); font-family:var(--font-serif); font-weight:700; font-size:1.25rem;">1</span>
+          </div>
+          <h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-primary); margin:0;">We Are a Christian People</h3>
+        </div>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem;">As members of the Church Universal, we join with all true believers in proclaiming the Lordship of Jesus Christ and in embracing the historic Trinitarian creedal statements of Christian faith. We value our Wesleyan-Holiness heritage and believe it to be true to Scripture, reason, tradition, and experience.</p>
+      </div>
+
+      <!-- Value 2 -->
+      <div style="margin-bottom:var(--space-2xl); padding:var(--space-xl); background:var(--color-bg-muted); border-radius:var(--radius-lg); border-top:4px solid var(--color-gold);">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <div style="width:48px; height:48px; background:var(--color-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span style="color:var(--color-gold); font-family:var(--font-serif); font-weight:700; font-size:1.25rem;">2</span>
+          </div>
+          <h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-primary); margin:0;">We Are a Holiness People</h3>
+        </div>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem;">God, who is holy, calls us to a life of holiness. We believe that the Holy Spirit seeks to do in us a second work of grace, called by various terms including "entire sanctification" and "baptism with the Holy Spirit" — cleansing us from all sin; renewing us in the image of God; empowering us to love God with our whole heart, soul, mind, and strength, and our neighbors as ourselves; and producing in us the character of Christ. Holiness in the life of believers is most clearly understood as Christlikeness.</p>
+      </div>
+
+      <!-- Value 3 -->
+      <div style="margin-bottom:var(--space-2xl); padding:var(--space-xl); background:var(--color-bg-muted); border-radius:var(--radius-lg); border-top:4px solid var(--color-gold);">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <div style="width:48px; height:48px; background:var(--color-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span style="color:var(--color-gold); font-family:var(--font-serif); font-weight:700; font-size:1.25rem;">3</span>
+          </div>
+          <h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-primary); margin:0;">We Are a Missional People</h3>
+        </div>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1.25rem;">We are a "sent people," responding to the call of Christ and empowered by the Holy Spirit to go into all the world, witnessing to the Lordship of Christ and participating with God in the building of the Church and the extension of His kingdom (2 Corinthians 6:1). Our mission (a) begins in worship, (b) ministers to the world in evangelism and compassion, (c) encourages believers toward Christian maturity through discipleship, and (d) prepares women and men for Christian service through Christian higher education.</p>
+
+        <!-- Sub-missions -->
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div style="background:var(--color-bg); border-radius:var(--radius-md); padding:1rem 1.25rem;">
+            <div style="font-family:var(--font-serif); font-weight:700; color:var(--color-primary); margin-bottom:0.4rem;">Worship</div>
+            <p style="color:var(--color-text-muted); line-height:1.8; font-size:0.9875rem; margin:0;">The mission of the church begins in worship. It is in gathering together before God — in singing, Scripture, prayer, sacrament, and preaching — that we know most clearly what it means to be the people of God.</p>
+          </div>
+          <div style="background:var(--color-bg); border-radius:var(--radius-md); padding:1rem 1.25rem;">
+            <div style="font-family:var(--font-serif); font-weight:700; color:var(--color-primary); margin-bottom:0.4rem;">Compassion &amp; Evangelism</div>
+            <p style="color:var(--color-text-muted); line-height:1.8; font-size:0.9875rem; margin:0;">The Great Commandment and the Great Commission move us to engage the world in evangelism, compassion, and justice — inviting people to faith, caring for those in need, and standing against injustice with the oppressed.</p>
+          </div>
+          <div style="background:var(--color-bg); border-radius:var(--radius-md); padding:1rem 1.25rem;">
+            <div style="font-family:var(--font-serif); font-weight:700; color:var(--color-primary); margin-bottom:0.4rem;">Discipleship</div>
+            <p style="color:var(--color-text-muted); line-height:1.8; font-size:0.9875rem; margin:0;">We are committed to being — and inviting others to become — disciples of Jesus. Through Sunday School, Bible studies, small accountability groups, and Christian mentoring, we encourage believers to grow in faith and in one another. As Wesley said, "God has given us to each other to strengthen each other's hands."</p>
+          </div>
+          <div style="background:var(--color-bg); border-radius:var(--radius-md); padding:1rem 1.25rem;">
+            <div style="font-family:var(--font-serif); font-weight:700; color:var(--color-primary); margin-bottom:0.4rem;">Christian Higher Education</div>
+            <p style="color:var(--color-text-muted); line-height:1.8; font-size:0.9875rem; margin:0;">We are committed to equipping men and women for lives of Christian service — through seminaries, Bible colleges, and universities — pursuing knowledge, developing Christian character, and raising up servant leaders for the church and the world.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Essays Header -->
+      <div style="margin-bottom:var(--space-xl); margin-top:var(--space-2xl); text-align:center;">
+        <div style="width:60px; height:3px; background:var(--color-gold); margin:0 auto var(--space-md);"></div>
+        <h2 style="font-family:var(--font-serif); font-size:2rem; color:var(--color-primary);">Essays</h2>
+        <p style="color:var(--color-text-muted); font-size:1.0625rem; margin-top:0.5rem;">A deeper exploration of our three core commitments</p>
+      </div>
+
+      <!-- Essay 1 -->
+      <div style="margin-bottom:var(--space-2xl);">
+        <h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-primary); border-bottom:2px solid var(--color-gold); padding-bottom:0.75rem; margin-bottom:1.25rem;">1. We Are a Christian People</h3>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">We are united with all believers in proclaiming the Lordship of Jesus Christ. We believe that in divine love, God offers to all people forgiveness of sins and restored relationship. In being reconciled to God, we believe that we are also to be reconciled to one another, loving each other as we have been loved by God, forgiving each other as we have been forgiven by God. We believe that our life together is to exemplify the character of Christ. We stand with Christians everywhere in affirming the historic Trinitarian creeds and beliefs of the Christian faith and deeply value our heritage in the Wesleyan-Holiness tradition. We look to Scripture as the primary source of spiritual truth confirmed by reason, tradition, and experience.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem; font-style:italic; font-family:var(--font-serif); font-size:1.125rem; color:var(--color-primary);">With all the people of God we confess and praise Jesus Christ the Lord.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Jesus Christ is the Lord of the Church, which, as the Apostles' Creed tells us, is one, holy, universal, and apostolic. In Jesus Christ and through the Holy Spirit, God the Father offers forgiveness of sin and reconciliation to all the world. Those who respond to God's offer in faith become the people of God. Having been forgiven and reconciled in Christ, we forgive and are reconciled to one another. As the one Body of Christ, we have "one Lord, one faith, one baptism." We affirm the unity of Christ's Church and strive in all things to preserve it (Ephesians 4:5, 3).</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Jesus Christ is the holy Lord. For this reason, Christ's Church is not only one, but also holy — holy in its parts and in its totality, holy in its members as it is in its Head. It is holy because it is the Body of Christ, who has become for us righteousness and holiness. As Christ's one Body, our life together as a church should embody the holy character of Christ, who emptied himself and took on the form of a slave. We affirm the holiness of Christ's Church, both as a gift and as a calling.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Jesus Christ is the Lord of the Church — universal, including all who affirm the essential beliefs of the Christian faith. We affirm the apostolic faith held by all Christians, everywhere and at all times. We embrace John Wesley's concept of the universal spirit, by which we have fellowship with all those who affirm the vital center of Scripture, and we extend toleration to those who disagree with us on matters not essential to salvation.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Jesus Christ is the Lord of the Scriptures. The Church especially looks to the Scriptures, which are the church's only norm of faith and life. The Lordship of Jesus over the Scriptures means that we are to understand them through the witness of the Holy Spirit as they testify to Jesus. To confirm and correct our understanding, we honor and heed the ancient creeds and other voices of the Christian tradition. We also allow our understanding to be guided by the voice of the Holy Spirit speaking to us in repentance, faith, and assurance, and we test it by seeking the reasonableness and coherence of their witness to Jesus Christ.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem;">We are especially called to witness to the holiness of Christ's Church as embraced in the Wesleyan-Holiness tradition. We affirm salvation by grace alone through faith in Jesus Christ our Savior. Our special calling is to hold before the eyes of the world and the Church the centrality of holiness and to encourage the people of God to live in the fullness of the Father's holy love — remaining faithful to: God's prevenient grace and the means of grace, repentance, faith, the new birth, justification, assurance, the Christian community and its disciplines, and the perfection of love.</p>
+      </div>
+
+      <!-- Essay 2 -->
+      <div style="margin-bottom:var(--space-2xl);">
+        <h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-primary); border-bottom:2px solid var(--color-gold); padding-bottom:0.75rem; margin-bottom:1.25rem;">2. We Are a Holiness People</h3>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">We are called by Scripture and drawn by grace to worship God and to love Him with our whole heart, soul, mind, and strength, and our neighbors as ourselves. To this end we commit ourselves fully and completely to God, believing that we can be "sanctified wholly," as a second crisis experience. We believe that the Holy Spirit convicts, cleanses, fills and empowers us as the grace of God transforms us day by day into a people of love and spiritual discipline, ethical and moral purity, and compassion and justice. Holiness in the life of believers is most clearly understood as Christlikeness.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">We believe in God the Father, the Creator, who calls into being what does not exist. We once were not, but God called us into being, made us for himself, and fashioned us in His own image. We have been commissioned to bear the image of God: "I am the Lord your God; consecrate yourselves and be holy, because I am holy" (Leviticus 11:44).</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Our hunger to be a Holiness people is rooted in the holiness of God himself. There is none like Him in majesty and glory. The appropriate human response in the presence of such a glorious being is worship of God as God. God's holiness is expressed in His gracious redemptive acts — encounter with the God who reveals and gives himself makes worship possible, and worship becomes the primary way of knowing Him. We worship the holy, redeeming God by loving what He loves.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Our worship takes many forms — praise and prayer with the faith community, acts of private devotion, thanksgiving, and obedience. Evangelistic sharing of the faith, compassion toward our neighbor, working for justice, and moral uprightness are all acts of worship before our God of blazing holiness. Even the ordinary tasks of life become acts of worship and take on a sacramental significance as worship of a holy God becomes our way of life.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Jesus Christ revealed the one holy God to us and modeled worshipful holy living for us — informing our understanding of holiness through His life, sacrifice, and teachings, particularly the Sermon on the Mount. As a Holiness people we seek to be like Jesus in every attitude and action. By His grace God enables believers who worship Him with their whole hearts to live Christlike lives. This we understand to be the essence of holiness.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">We believe that holiness in the life of the believer is the result of both a crisis experience and a lifelong process. Following regeneration, the Spirit of our Lord draws us by grace to the full consecration of our lives to Him. Then, in the divine act of entire sanctification — also called the baptism with the Holy Spirit — He cleanses us from original sin and indwells us with His holy presence. He perfects us in love, enables us to live in moral uprightness, and empowers us to serve.</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">The Spirit of Jesus works within us to reproduce in us His own character of holy love. He enables us to "put on the new self, created to be like God in true righteousness and holiness" (Ephesians 4:24). Having had the divine image restored in us, we acknowledge that we have not yet arrived spiritually; our lifelong goal is Christlikeness in every word, thought, and deed. By continued yieldedness, obedience, and faith, we believe that we are "being transformed in his likeness with ever-increasing glory" (2 Corinthians 3:18).</p>
+
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">As a Holiness people, we identify with the New Testament and the Early Church. We identify with the Arminian tradition of free grace (Jesus died for all) and human freedom — the God-given capacity of all to choose God and salvation. We also trace our heritage to the Wesleyan Revival of the 18th century and to the Holiness Movement of the 19th and 20th centuries.</p>
+
+        <blockquote style="border-left:3px solid var(--color-gold); padding-left:1.25rem; margin:1.25rem 0; font-family:var(--font-serif); font-style:italic; color:var(--color-primary); font-size:1.125rem; line-height:1.7;">
+          "Through the centuries the holiness people have had a magnificent obsession with Jesus. We worship Jesus! We love Jesus! We think Jesus! We talk Jesus! We live Jesus! This is the essence and overflow of holiness for us."
+        </blockquote>
+      </div>
+
+      <!-- Essay 3 -->
+      <div style="margin-bottom:var(--space-2xl);">
+        <h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-primary); border-bottom:2px solid var(--color-gold); padding-bottom:0.75rem; margin-bottom:1.25rem;">3. We Are a Missional People</h3>
+
+        <h4 style="font-family:var(--font-serif); font-size:1.1875rem; color:var(--color-primary); margin:1.5rem 0 0.75rem;">3a. Our Mission of Worship</h4>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">The mission of the church in the world begins in worship. It is as we are gathered together before God — singing, hearing the public reading of the Bible, giving our tithes and offerings, praying, hearing the preached Word, baptizing, and sharing the Lord's Supper — that we know most clearly what it means to be the people of God.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Worship is the highest expression of our love for God — God-centered adoration honoring the One who in grace and mercy redeems us. The primary context for worship is the local church where God's people gather, not in self-centered experience or for self-glorification, but in self-surrender and self-offering. Worship is the church in loving obedient service to God.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">The local church in worship is at the core of our identity. It is in the preaching of the Word, the celebration of the sacraments, the public reading of Scripture, the singing of hymns and choruses, corporate prayer, and the presenting of tithes and offerings that we know most clearly what it means to be the people of God. Our mission of worship is foundational, and it will include a continued commitment to the starting of new congregations.</p>
+
+        <h4 style="font-family:var(--font-serif); font-size:1.1875rem; color:var(--color-primary); margin:1.5rem 0 0.75rem;">3b. Our Mission of Compassion and Evangelism</h4>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">As people who are consecrated to God, we share His love for the lost and His compassion for the poor and broken. The Great Commandment and the Great Commission move us to engage the world in evangelism, compassion, and justice — inviting people to faith, caring for those in need, standing against injustice and with the oppressed, working to protect and preserve the resources of God's creation, and including in our fellowship all who will call upon the name of the Lord.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">The story of the Bible is the story of God reconciling the world to himself, ultimately through Christ Jesus (2 Corinthians 5:16–21). The church is sent into the world to participate with God in this ministry of love and reconciliation through evangelism, compassion, and justice. The Great Commission and the Great Commandment are two expressions of a single mission, two dimensions of the one gospel message.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">The mission of the church extends to all humanity — as all people, being created in the image of God, have ultimate value. God has created us as whole persons, and it is our mission to be ministers of His love to people as whole persons — body, soul, and spirit. It is with a spirit of hope and optimism that we engage our God-given mission in the world, trusting in the ability of God's grace to transform lives broken by sin and to restore them in His own image.</p>
+
+        <h4 style="font-family:var(--font-serif); font-size:1.1875rem; color:var(--color-primary); margin:1.5rem 0 0.75rem;">3c. Our Mission of Discipleship</h4>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">We are committed to being — and inviting others to become — disciples of Jesus. Christian discipleship is a way of life: the process of learning how God would have us live in the world. As we learn to live in obedience to the Word of God, in submission to the disciplines of the faith, and in accountability to one another, we begin to understand the true joy of the disciplined life and the Christian meaning of freedom.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">By studying and meditating on the Scriptures, Christians discover fountains of refreshment on their discipleship journey. Invigorated by the washing of the Word, disciples discover to their happy surprise that they are being "transformed by the renewing of their mind" (Romans 12:2). The Christian way opens before them like a high and open road — nerved by God, they proceed on a way of life that eclipses mere human and cultural values.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">We affirm the life-giving value of the classic spiritual disciplines — prayer and fasting, worship, study, solitude, service, and simplicity — as both natural expressions and intentional commitments in the life of the believer. Discipleship requires mutual support and loving accountability through Sunday School classes, discipleship groups, Bible study groups, prayer meetings, accountability groups, and Christian mentoring.</p>
+        <blockquote style="border-left:3px solid var(--color-gold); padding-left:1.25rem; margin:1.25rem 0; font-family:var(--font-serif); font-style:italic; color:var(--color-primary); font-size:1.125rem; line-height:1.7;">
+          "God has given us to each other to strengthen each other's hands." — John Wesley
+        </blockquote>
+
+        <h4 style="font-family:var(--font-serif); font-size:1.1875rem; color:var(--color-primary); margin:1.5rem 0 0.75rem;">3d. Our Mission of Christian Higher Education</h4>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">We are committed to Christian education, through which men and women are equipped for lives of Christian service. In our seminaries, Bible colleges, colleges, and universities, we are committed to the pursuit of knowledge, the development of Christian character, and the equipping of leaders to accomplish our God-given calling of serving in the church and the world.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">Our mission of Christian higher education comes directly out of what it means to be God's people. We are to love God with our whole "heart, soul and mind" — to be good stewards in the development of our minds, our academic resources, and in the application of our knowledge. In Christian higher education, faith is not compartmentalized but wonderfully integrated with knowledge as faith and learning are developed together.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem;">Christian character and the equipping of Christian leaders for service in the church and the world are forged in the context of learning about God, humanity, and the world. As a redeemed people called to Christlikeness, we participate with God in the work of redeeming humanity — and our faithful witness to the Lordship of Christ will continue to require a vital commitment to Christian higher education in present and future generations.</p>
+      </div>
+
+      <!-- Conclusion -->
+      <div style="margin-bottom:var(--space-2xl); padding:var(--space-xl); background:var(--color-bg-muted); border-radius:var(--radius-lg);">
+        <h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--color-primary); margin-bottom:1rem;">Conclusion</h3>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">At the turn of the 20th century, the Church of the Nazarene was born. P.F. Bresee and others were deeply convicted that God had raised them up for the express purpose of proclaiming to the church and the world the gospel of Jesus Christ in the Wesleyan-Holiness tradition. There are unmistakable marks of providence on this denomination. From a fledgling movement, the Church of the Nazarene now exceeds 1.3 million in membership and is ministering in 119 countries of the world.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem; margin-bottom:1rem;">At the turn of the 21st century, the future of this denomination has never been brighter. Many believe that we were raised up not for the 20th century, but for the 21st. We are positioned to make a major contribution to our postmodern world — grounded in our Wesleyan-Holiness heritage with its radical optimism of grace. We believe that human nature, and ultimately society, can be radically and permanently changed by the grace of God.</p>
+        <p style="color:var(--color-text-muted); line-height:1.9; font-size:1.0625rem;">We have an irrepressible confidence in this message of hope, which flows from the heart of our holy God. With clarity of vision, total commitment, and firm faith, we view the coming century as our day of greatest opportunity for making Christlike disciples of all nations.</p>
+      </div>
+
+      <!-- Closing -->
+      <div style="text-align:center; padding:var(--space-xl); background:var(--color-primary); border-radius:var(--radius-lg);">
+        <p style="font-family:var(--font-serif); font-size:1.25rem; color:rgba(255,255,255,0.9); line-height:1.8; font-style:italic; margin-bottom:1rem;">"The sun never sets in the morning."</p>
+        <p style="color:rgba(255,255,255,0.65); font-size:0.9375rem; margin-bottom:0.25rem;">— P.F. Bresee, Founder</p>
+      </div>
+
+      <!-- Attribution -->
+      <div style="margin-top:var(--space-lg); text-align:center;">
+        <p style="color:var(--color-text-light); font-size:0.8125rem; line-height:1.7;">All Scripture quotations are taken from the Holy Bible, New International Version® (NIV®). Copyright © 1973, 1978, 1984 by International Bible Society. Used by permission of Zondervan Publishing House. All rights reserved.</p>
+        <p style="color:var(--color-text-light); font-size:0.8125rem; margin-top:0.5rem;">Used by permission of International Church of the Nazarene.</p>
+      </div>
+
+    </div>
+  </section>
+</div><!-- end page-core-values -->
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+function showPage(id, anchor) {
+  // Hide all pages
+  document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+
+  // Show target page
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+
+  // Highlight active nav link
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    if (a.getAttribute('onclick') && a.getAttribute('onclick').includes("'" + id + "'")) {
+      a.classList.add('active');
+    }
+  });
+
+  // Scroll to anchor or top
+  if (anchor) {
+    setTimeout(() => {
+      const target = document.getElementById(anchor);
+      if (target) {
+        const offset = 80; // account for sticky nav height
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }, 50);
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+</script>
+
+</body></html>
