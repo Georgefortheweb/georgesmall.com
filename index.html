@@ -544,12 +544,13 @@ button { cursor: pointer; font-family: inherit; }
   text-align: center; position: relative; overflow: hidden;
 }
 .cta-section::before {
-  content: '✝';
+  content: '✝︎';
   position: absolute; font-size: 20rem; color: rgba(255,255,255,0.02);
   top: 50%; left: 50%; transform: translate(-50%, -50%);
   pointer-events: none; font-family: serif;
+  font-variant-emoji: text;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .cta-section::before { display: none; }
 }
 .cta-section h2 { font-family: var(--font-serif); color: var(--color-white); font-size: clamp(1.75rem, 3vw, 2.5rem); }
